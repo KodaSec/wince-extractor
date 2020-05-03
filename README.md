@@ -25,7 +25,7 @@ $ pip3 install sortedcontainers
 ### Usage
 
 ```
-$ python3 wince-extractor.py --help
+> python3 wince-extractor.py --help
 usage: wince-extractor.py [-h] [-d dirpath] [-v] [-q] [-n]
                           [-u <ofs>L<len>:desc] [-x <offset>] [-i <offset>]
                           [-3] [-4] [-5]
