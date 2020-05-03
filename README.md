@@ -56,5 +56,7 @@ python3 wince-extractor.py -d <output_dir> <input_file>
 ### Special Thanks
 
 Willem Hengeveld <itsme@xs4all.nl>
+
 Collin Moon <mooncollin@gmail.com>
+
 Frank Tursi <frank@kodasec.com>
