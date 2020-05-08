@@ -1,9 +1,9 @@
 # WinCE Extractor
 
-[![Python version](https://www.python.org/downloads/)](https://img.shields.io/badge/python-%3E=_3.7-green.svg)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/KodaSec/wince-extractor/graphs/commit-activity)
+[![Python version](https://img.shields.io/badge/python-%3E=_3.7-green.svg)](https://www.python.org/downloads/)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/KodaSec/wince-extractor/graphs/commit-activity)
 [![GitHub license](https://img.shields.io/github/license/KodaSec/wince-extractor.svg)](https://github.com/KodaSec/wince-extractor/blob/master/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?style=social&label=Stars)](https://github.com//KodaSec/wince-extractor/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/KodaSec/wince-extractor?style=social)](https://github.com//KodaSec/wince-extractor/stargazers)
 
 ### Installation
 
@@ -28,7 +28,7 @@ Program requires Windows 32-bit Python due to DLL dependency.
 ### Usage
 
 ```
-$ python3 wince-extractor.py --help
+> python3 wince-extractor.py --help
 usage: wince-extractor.py [-h] [-d dirpath] [-v] [-q] [-n]
                           [-u <ofs>L<len>:desc] [-x <offset>] [-i <offset>]
                           [-3] [-4] [-5]
@@ -59,5 +59,7 @@ python3 wince-extractor.py -d <output_dir> <input_file>
 ### Special Thanks
 
 Willem Hengeveld <itsme@xs4all.nl>
+
 Collin Moon <mooncollin@gmail.com>
+
 Frank Tursi <frank@kodasec.com>
