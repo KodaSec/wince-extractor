@@ -7,19 +7,22 @@
 
 ### Installation
 
-Program requires 32-bit Python due to DLL dependency.
+Program requires Windows 32-bit Python due to DLL dependency.
 
 ```
 # Clone the repo
-$ git clone https://github.com/KodaSec/wince-extractor.git
+> git clone https://github.com/KodaSec/wince-extractor.git
 
 # Change the working directory to wince-extractor
-$ cd wince-extractor
+> cd wince-extractor
 
 # Install 32bit Python3 and pip3 if they are not installed
 
 # Install dependency
-$ pip3 install sortedcontainers
+> pip3 install sortedcontainers
+
+# Download CECompress.dll
+> (new-object System.Net.WebClient).DownloadFile('http://nah6.com/~itsme/cvs-xdadevtools/dumprom/CECompress.dll','C:\CECompress.dll')
 ```
 
 ### Usage
