@@ -1,7 +1,6 @@
 # WinCE Extractor
 
 [![Python version](https://img.shields.io/badge/python-%3E=_3.7-green.svg)](https://www.python.org/downloads/)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/KodaSec/wince-extractor/graphs/commit-activity)
 [![GitHub license](https://img.shields.io/github/license/KodaSec/wince-extractor.svg)](https://github.com/KodaSec/wince-extractor/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/KodaSec/wince-extractor?style=social)](https://github.com//KodaSec/wince-extractor/stargazers)
 
@@ -58,8 +57,8 @@ python3 wince-extractor.py -d <output_dir> <input_file>
 
 ### Special Thanks
 
-Willem Hengeveld <itsme@xs4all.nl>
+Willem Hengeveld <<itsme@xs4all.nl>>
 
-Collin Moon <mooncollin@gmail.com>
+Collin Moon <<mooncollin@gmail.com>>
 
-Frank Tursi <frank@kodasec.com>
+Frank Tursi <<frank@kodasec.com>>
