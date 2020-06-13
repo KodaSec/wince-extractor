@@ -15,29 +15,6 @@ import argparse
 
 from wincedecompr.wincedecompr import CEDecompressROM
 
-if os.name == 'nt':
-    from ctypes import wintypes
-    from ctypes.wintypes import CHAR
-    # from ctypes.wintypes import BYTE # This gives a signed char, not an unsigned char like we need
-    BYTE = ctypes.c_ubyte
-    from ctypes.wintypes import WORD
-    from ctypes.wintypes import DWORD
-    from ctypes.wintypes import LONG
-    from ctypes.wintypes import ULONG
-    from ctypes.wintypes import USHORT
-    from ctypes.wintypes import LPSTR
-    from ctypes.wintypes import LPVOID
-else:
-    CHAR    = ctypes.c_char
-    BYTE    = ctypes.c_ubyte
-    WORD    = ctypes.c_ushort
-    DWORD   = ctypes.c_ulong
-    LONG    = ctypes.c_long
-    ULONG   = ctypes.c_ulong
-    USHORT  = ctypes.c_ushort
-    LPSTR   = ctypes.POINTER(ctypes.c_char)
-    LPVOID  = ctypes.c_void_p
-
 _IMGOFSINCREMENT                    = 0x1000
 _IMAGE_DOS_SIGNATURE                = 0x5A4D
 _ROM_EXTRA                          = 9
@@ -92,8 +69,8 @@ class filetime(ctypes.Structure):
     """
     A structure for holding a filetime instance in a ROM entry.
     """
-    _fields_        = [("dwLowDateTime",    DWORD),
-                       ("dwHighDateTime",   DWORD)]
+    _fields_        = [("dwLowDateTime",    ctypes.c_uint32),
+                       ("dwHighDateTime",   ctypes.c_uint32)]
 
 class info(ctypes.Structure):
     """
@@ -135,84 +112,84 @@ class romhdr(ctypes.Structure):
     """
     A structure representing a romhdr entry.
     """
-    _fields_    = [("dllfirst",         ULONG),
-                   ("dlllast",          ULONG),
-                   ("physfirst",        ULONG),
-                   ("physlast",         ULONG),
-                   ("nummods",          ULONG),
-                   ("ulRAMStart",       ULONG),
-                   ("ulRAMFree",        ULONG),
-                   ("ulRAMEnd",         ULONG),
-                   ("ulCopyEntries",    ULONG),
-                   ("ulCopyOffset",     ULONG),
-                   ("ulProfileLen",     ULONG),
-                   ("ulProfileOffset",  ULONG),
-                   ("numfiles",         ULONG),
-                   ("ulKernelFlags",    ULONG),
-                   ("ulFSRamPercent",   ULONG),
-                   ("ulDrivglobstart",  ULONG),
-                   ("ulDrivgloblen",    ULONG),
-                   ("usCPUType",        USHORT),
-                   ("usMiscFlags",      USHORT),
-                   ("pExtensions",      DWORD), # Originally void*, but Python makes pointers 8 bytes
+    _fields_    = [("dllfirst",         ctypes.c_uint32),
+                   ("dlllast",          ctypes.c_uint32),
+                   ("physfirst",        ctypes.c_uint32),
+                   ("physlast",         ctypes.c_uint32),
+                   ("nummods",          ctypes.c_uint32),
+                   ("ulRAMStart",       ctypes.c_uint32),
+                   ("ulRAMFree",        ctypes.c_uint32),
+                   ("ulRAMEnd",         ctypes.c_uint32),
+                   ("ulCopyEntries",    ctypes.c_uint32),
+                   ("ulCopyOffset",     ctypes.c_uint32),
+                   ("ulProfileLen",     ctypes.c_uint32),
+                   ("ulProfileOffset",  ctypes.c_uint32),
+                   ("numfiles",         ctypes.c_uint32),
+                   ("ulKernelFlags",    ctypes.c_uint32),
+                   ("ulFSRamPercent",   ctypes.c_uint32),
+                   ("ulDrivglobstart",  ctypes.c_uint32),
+                   ("ulDrivgloblen",    ctypes.c_uint32),
+                   ("usCPUType",        ctypes.c_uint16),
+                   ("usMiscFlags",      ctypes.c_uint16),
+                   ("pExtensions",      ctypes.c_uint32), # Originally void*, but Python makes pointers 8 bytes
                                                 # and it needs to be a 4 byte pointer.
-                   ("ulTrackingStart",  ULONG),
-                   ("ulTrackingLen",    ULONG)]
+                   ("ulTrackingStart",  ctypes.c_uint32),
+                   ("ulTrackingLen",    ctypes.c_uint32)]
 
 class toc_entry(ctypes.Structure):
     """
     A structure representing a TOC entry.
     """
-    _fields_    = [("dwFileAttributes", DWORD),
+    _fields_    = [("dwFileAttributes", ctypes.c_uint32),
                     ("ftTime",          filetime),
-                    ("nFileSize",       DWORD),
-                    ("lpszFileName",    DWORD), # Originally void*, but Python makes pointers 8 bytes
+                    ("nFileSize",       ctypes.c_uint32),
+                    ("lpszFileName",    ctypes.c_uint32), # Originally void*, but Python makes pointers 8 bytes
                                                 # and it needs to be a 4 byte pointer.
-                    ("ulE32Offset",     ULONG),
-                    ("ulO32Offset",     ULONG),
-                    ("ulLoadOffset",    ULONG)]
+                    ("ulE32Offset",     ctypes.c_uint32),
+                    ("ulO32Offset",     ctypes.c_uint32),
+                    ("ulLoadOffset",    ctypes.c_uint32)]
 
 class file_entry(ctypes.Structure):
     """
     A structure representing a file entry.
     """
-    _fields_    = [("dwFileAttributes", DWORD),
+    _fields_    = [("dwFileAttributes", ctypes.c_uint32),
                    ("ftTime",           filetime),
-                   ("nRealFileSize",    DWORD),
-                   ("nCompFileSize",    DWORD),
-                   ("lpszFileName",     DWORD), # Originally void*, but Python makes pointers 8 bytes
+                   ("nRealFileSize",    ctypes.c_uint32),
+                   ("nCompFileSize",    ctypes.c_uint32),
+                   ("lpszFileName",     ctypes.c_uint32), # Originally void*, but Python makes pointers 8 bytes
                                                 # and it needs to be a 4 byte pointer.
-                   ("ulLoadOffset",     ULONG)]
+                   ("ulLoadOffset",     ctypes.c_uint32)]
 
 class copy_entry(ctypes.Structure):
     """
     A structure representing a copy entry.
     """
-    _fields_    = [("ulSource",     ULONG),
-                   ("ulDest",       ULONG),
-                   ("ulCopyLen",    ULONG),
-                   ("ulDestLen",    ULONG)]
+    _fields_    = [("ulSource",     ctypes.c_uint32),
+                   ("ulDest",       ctypes.c_uint32),
+                   ("ulCopyLen",    ctypes.c_uint32),
+                   ("ulDestLen",    ctypes.c_uint32)]
 
 class xipchain_entry(ctypes.Structure):
     """
     A structure representing a xipchain entry.
     """
-    _fields_    = [("pvAddr",       LPVOID),
-                   ("dwLength",     DWORD),
-                   ("dwMaxLength",  DWORD),
-                   ("usOrder",      USHORT),
-                   ("usFlags",      USHORT),
-                   ("dwVersion",    DWORD),
-                   ("szName",       CHAR * _XIP_NAMELEN),
-                   ("dwAlgoFlags",  DWORD),
-                   ("dwKeyLen",     DWORD),
-                   ("byPublicKey",  BYTE * 596)]
+    _fields_    = [("pvAddr",       ctypes.c_void_p),
+                   ("dwLength",     ctypes.c_uint32),
+                   ("dwMaxLength",  ctypes.c_uint32),
+                   ("usOrder",      ctypes.c_uint16),
+                   ("usFlags",      ctypes.c_uint16),
+                   ("dwVersion",    ctypes.c_uint32),
+                   ("szName",       ctypes.c_char * _XIP_NAMELEN),
+                   ("dwAlgoFlags",  ctypes.c_uint32),
+                   ("dwKeyLen",     ctypes.c_uint32),
+                   ("byPublicKey",  ctypes.c_ubyte * 596)]
 
 class xipchain_info(ctypes.Structure):
     """
     A structure holding information about a xipchain entry.
     """
-    _fields_    = [("cXIPs",            DWORD),
+    _fields_    = [("cXIPs",            ctypes.c_uint32),
                    ("xipEntryStart",    xipchain_entry)]
 
 class rom_pid(ctypes.Structure):
@@ -227,44 +204,44 @@ class rom_pid(ctypes.Structure):
             """
             Information about a rom pid.
             """
-            _fields_    = [("name",     ctypes.c_char * (_PID_LENGTH - 4) * ctypes.sizeof(DWORD)),
-                           ("type",     DWORD),
-                           ("pdata",    DWORD),
+            _fields_    = [("name",     ctypes.c_char * (_PID_LENGTH - 4) * ctypes.sizeof(ctypes.c_uint32)),
+                           ("type",     ctypes.c_uint32),
+                           ("pdata",    ctypes.c_uint32),
                         #    ("pdata",    ctypes.c_void_p),
-                           ("length",   DWORD),
-                           ("reserved", DWORD)]
+                           ("length",   ctypes.c_uint32),
+                           ("reserved", ctypes.c_uint32)]
 
-        _fields_    = [("dwPID",    DWORD * _PID_LENGTH),
+        _fields_    = [("dwPID",    ctypes.c_uint32 * _PID_LENGTH),
                        ("s",        _rom_pid_union_struct)]
 
     _anonymous_ = ('u')
     _fields_    = [('u',        _rom_pid_anon_union),
-                   ('pNextExt', DWORD)]
+                   ('pNextExt', ctypes.c_uint32)]
                 #    ('pNextExt', ctypes.c_void_p)]
 
 class image_dos_header(ctypes.Structure):
     """
     A structure representing the header of DOS images.
     """
-    _fields_    = [("e_magic",      WORD),
-                   ("e_cblp",       WORD),
-                   ("e_cp",         WORD),
-                   ("e_crlc",       WORD),
-                   ("e_cparhdr",    WORD),
-                   ("e_minalloc",   WORD),
-                   ("e_maxalloc",   WORD),
-                   ("e_ss",         WORD),
-                   ("e_sp",         WORD),
-                   ("e_csum",       WORD),
-                   ("e_ip",         WORD),
-                   ("e_cs",         WORD),
-                   ("e_lfarlc",     WORD),
-                   ("e_ovno",       WORD),
-                   ("e_res",        WORD * 4),
-                   ("e_oemid",      WORD),
-                   ("e_oeminfo",    WORD),
-                   ("e_res2",       WORD * 10),
-                   ("e_lfanew",     LONG)]
+    _fields_    = [("e_magic",      ctypes.c_uint16),
+                   ("e_cblp",       ctypes.c_uint16),
+                   ("e_cp",         ctypes.c_uint16),
+                   ("e_crlc",       ctypes.c_uint16),
+                   ("e_cparhdr",    ctypes.c_uint16),
+                   ("e_minalloc",   ctypes.c_uint16),
+                   ("e_maxalloc",   ctypes.c_uint16),
+                   ("e_ss",         ctypes.c_uint16),
+                   ("e_sp",         ctypes.c_uint16),
+                   ("e_csum",       ctypes.c_uint16),
+                   ("e_ip",         ctypes.c_uint16),
+                   ("e_cs",         ctypes.c_uint16),
+                   ("e_lfarlc",     ctypes.c_uint16),
+                   ("e_ovno",       ctypes.c_uint16),
+                   ("e_res",        ctypes.c_uint16 * 4),
+                   ("e_oemid",      ctypes.c_uint16),
+                   ("e_oeminfo",    ctypes.c_uint16),
+                   ("e_res2",       ctypes.c_uint16 * 10),
+                   ("e_lfanew",     ctypes.c_int32)]
 
 class e32_exe(ctypes.Structure):
     """
@@ -329,12 +306,12 @@ class B000FFHeader(ctypes.Structure):
     A structure holding the header of a B000FF file.
     """
     _fields_    = [("signature",        ctypes.c_char * 7),
-                   ("imgstart",         DWORD),
-                   ("imglength",        DWORD),
-                   ("blockstart",       DWORD),
-                   ("blocklength",      DWORD),
-                   ("blockchecksum",    DWORD),
-                   ("data",             BYTE * 1)]
+                   ("imgstart",         ctypes.c_uint32),
+                   ("imglength",        ctypes.c_uint32),
+                   ("blockstart",       ctypes.c_uint32),
+                   ("blocklength",      ctypes.c_uint32),
+                   ("blockchecksum",    ctypes.c_uint32),
+                   ("data",             ctypes.c_ubyte * 1)]
 
 def write_blanks(f: IO, n_blanks: int) -> None:
     """
@@ -406,15 +383,15 @@ def filetime_to_time_t(pft: filetime) -> int:
 
 def read_dword(data: bytes, offset: int, byteorder: str) -> int:
     """
-    Reads a DWORD integer from the given data at the given offset.
+    Reads a ctypes.c_uint32 integer from the given data at the given offset.
 
     :param data: input data
     :param offset: offset to starting reading
     :byteorder: order to read the bytes in
 
-    :return: a DWORD integer
+    :return: a ctypes.c_uint32 integer
     """
-    return int.from_bytes(data[offset:offset + ctypes.sizeof(DWORD)], byteorder=byteorder)
+    return int.from_bytes(data[offset:offset + ctypes.sizeof(ctypes.c_uint32)], byteorder=byteorder)
 
 def load_from_offset(data: bytes, offset: int, structure: ctypes.Structure) -> ctypes.Structure:
     """
@@ -439,8 +416,8 @@ def set_to_image_start(in_f: BinaryIO, byteorder: str) -> None:
     :return: None
     """
     while True:
-        n = in_f.read(ctypes.sizeof(DWORD))
-        if len(n) != ctypes.sizeof(DWORD):
+        n = in_f.read(ctypes.sizeof(ctypes.c_uint32))
+        if len(n) != ctypes.sizeof(ctypes.c_uint32):
             return False
         offset = int.from_bytes(n, byteorder=byteorder)
         if offset == _ROM_SIGNATURE:
@@ -470,12 +447,11 @@ class WinCEExtractor(object):
     """
     Extracts information and files from a Windows CE ROM file.
     """
-    def __init__(self, file_obj: BinaryIO, image_start: int = None, byteorder: str = sys.byteorder):
+    def __init__(self, file_obj: BinaryIO, image_start: int = None):
         self.in_file    = file_obj
-        self.byteorder  = byteorder
         
         if image_start is None:
-            set_to_image_start(file_obj, self.byteorder)
+            set_to_image_start(file_obj, byteorder='little')
         else:
             file_obj.seek(image_start, io.SEEK_CUR)
 
@@ -641,11 +617,11 @@ class WinModule(WinEntry):
 
         for i,_ in enumerate(self.o32_roms):
             out_f.seek(o32_ofs_list[i] + 16, io.SEEK_SET)
-            out_f.write(data_len_list[i].to_bytes(ctypes.sizeof(DWORD), byteorder=sys.byteorder))
-            out_f.write(data_ofs_list[i].to_bytes(ctypes.sizeof(DWORD), byteorder=sys.byteorder))
+            out_f.write(data_len_list[i].to_bytes(ctypes.sizeof(ctypes.c_uint32), byteorder=sys.byteorder))
+            out_f.write(data_ofs_list[i].to_bytes(ctypes.sizeof(ctypes.c_uint32), byteorder=sys.byteorder))
 
             out_f.seek(e32_ofs + 0x54, io.SEEK_SET) # ofs to e32_hdrsize
-            out_f.write(header_size.to_bytes(ctypes.sizeof(DWORD), byteorder=sys.byteorder))
+            out_f.write(header_size.to_bytes(ctypes.sizeof(ctypes.c_uint32), byteorder=sys.byteorder))
             out_f.seek(total_file_size, io.SEEK_SET)
 
     def __write_e32_header(self, out_f: BinaryIO) -> None:
