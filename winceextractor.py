@@ -443,12 +443,16 @@ def read_null_terminated_string(data: bytes, offset: int, encoding: str = 'ascii
 
     return data[start:current].decode(encoding)
 
+class DecompressionFailedException(Exception):
+    def __init__(self):
+        super().__init__()
+
 class WinCEExtractor(object):
     """
     Extracts information and files from a Windows CE ROM file.
     """
     def __init__(self, file_obj: BinaryIO, image_start: int = None):
-        self.in_file    = file_obj
+        self.in_file = file_obj
         
         if image_start is None:
             set_to_image_start(file_obj, byteorder='little')
@@ -526,7 +530,7 @@ class WinCEExtractor(object):
             if buf_len != _CEDECOMPRESS_FAILED:
                 buf = decompressed_buf
             else:
-                buflen = datasize
+                raise DecompressionFailedException()
 
         return out_f.write(buf[:buf_len])
 
@@ -759,12 +763,35 @@ if __name__ == '__main__':
     output_dir      = args.d
     image_offset    = args.o
 
+    if not os.path.isfile(image_file):
+        print(f'Cannot find file: {image_file}', file=sys.stderr)
+        exit(1)
+
+    if output_dir is not None:
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        elif not os.path.isdir(output_dir):
+            print(f'{output_dir} is not a valid directory', file=sys.stderr)
+            exit(1)
+
+    if image_offset is not None and image_offset < 0:
+        print(f'Image offset cannot be less than 0', file=sys.stderr)
+
     with open(image_file, 'r+b') as f:
         with WinCEExtractor(f, image_offset) as extractor:
             if output_dir is not None:
                 for module in extractor.modules:
                     with open(os.path.join(output_dir, module.file_name), 'w+b') as module_file:
-                        module.write_to(module_file)
+                        try:
+                            module.write_to(module_file)
+                        except DecompressionFailedException:
+                            print(f'Error decompressing file: {module.file_name}', file=sys.stderr)
                 for file_e in extractor.files:
                     with open(os.path.join(output_dir, file_e.file_name), 'w+b') as file_file:
-                        file_e.write_to(file_file)
+                        try:
+                            file_e.write_to(file_file)
+                        except DecompressionFailedException:
+                            print(f'Error decompressing file: {file_e.file_name}', file=sys.stderr)
+
+    if output_dir is not None:
+        print(f'File extraction complete. Please check your output directory: {output_dir}')
