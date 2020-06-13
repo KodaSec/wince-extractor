@@ -77,36 +77,36 @@ class info(ctypes.Structure):
     A structure for holding information about units
     in other structures.
     """
-    _fields_        = [("rva",  ctypes.c_ulong),
-                       ("size", ctypes.c_ulong)]
+    _fields_        = [("rva",  ctypes.c_uint32),
+                       ("size", ctypes.c_uint32)]
 
 class e32_rom(ctypes.Structure):
     """
     A structure representing an e32_rom entry.
     """
-    _fields_    = [("e32_objcnt",       ctypes.c_ushort),
-                   ("e32_imageflags",   ctypes.c_ushort),
-                   ("e32_entryrva",     ctypes.c_ulong),
-                   ("e32_vbase",        ctypes.c_ulong),
-                   ("e32_subsysmajor",  ctypes.c_ushort),
-                   ("e32_subsysminor",  ctypes.c_ushort),
-                   ("e32_stackmax",     ctypes.c_ulong),
-                   ("e32_vsize",        ctypes.c_ulong),
-                   ("e32_sect14rva",    ctypes.c_ulong),
-                   ("e32_sect14size",   ctypes.c_ulong),
+    _fields_    = [("e32_objcnt",       ctypes.c_uint16),
+                   ("e32_imageflags",   ctypes.c_uint16),
+                   ("e32_entryrva",     ctypes.c_uint32),
+                   ("e32_vbase",        ctypes.c_uint32),
+                   ("e32_subsysmajor",  ctypes.c_uint16),
+                   ("e32_subsysminor",  ctypes.c_uint16),
+                   ("e32_stackmax",     ctypes.c_uint32),
+                   ("e32_vsize",        ctypes.c_uint32),
+                   ("e32_sect14rva",    ctypes.c_uint32),
+                   ("e32_sect14size",   ctypes.c_uint32),
                    ("e32_unit",         info * _ROM_EXTRA),
-                   ("e32_subsys",       ctypes.c_ushort)]
+                   ("e32_subsys",       ctypes.c_uint16)]
 
 class o32_rom(ctypes.Structure):
     """
     A structure representing an o32_rom entry.
     """
-    _fields_    = [("o32_vsize",    ctypes.c_ulong),
-                   ("o32_rva",      ctypes.c_ulong),
-                   ("o32_psize",    ctypes.c_ulong),
-                   ("o32_dataptr",  ctypes.c_ulong),
-                   ("o32_realaddr", ctypes.c_ulong),
-                   ("o32_flags",    ctypes.c_ulong)]
+    _fields_    = [("o32_vsize",    ctypes.c_uint32),
+                   ("o32_rva",      ctypes.c_uint32),
+                   ("o32_psize",    ctypes.c_uint32),
+                   ("o32_dataptr",  ctypes.c_uint32),
+                   ("o32_realaddr", ctypes.c_uint32),
+                   ("o32_flags",    ctypes.c_uint32)]
 
 class romhdr(ctypes.Structure):
     """
@@ -248,43 +248,43 @@ class e32_exe(ctypes.Structure):
     A structure representing a e32_exe entry.
     """
     _fields_    = [("e32_magic",        ctypes.c_ubyte * 4),
-                   ("e32_cpu",          ctypes.c_ushort),
-                   ("e32_objcnt",       ctypes.c_ushort),
-                   ("e32_timestamp",    ctypes.c_ulong),
-                   ("e32_symtaboff",    ctypes.c_ulong),
-                   ("e32_symcount",     ctypes.c_ulong),
-                   ("e32_opthdrsize",   ctypes.c_ushort),
-                   ("e32_imageflags",   ctypes.c_ushort),
-                   ("e32_coffmagic",    ctypes.c_ushort),
+                   ("e32_cpu",          ctypes.c_uint16),
+                   ("e32_objcnt",       ctypes.c_uint16),
+                   ("e32_timestamp",    ctypes.c_uint32),
+                   ("e32_symtaboff",    ctypes.c_uint32),
+                   ("e32_symcount",     ctypes.c_uint32),
+                   ("e32_opthdrsize",   ctypes.c_uint16),
+                   ("e32_imageflags",   ctypes.c_uint16),
+                   ("e32_coffmagic",    ctypes.c_uint16),
                    ("e32_linkmajor",    ctypes.c_ubyte),
                    ("e32_linkminor",    ctypes.c_ubyte),
-                   ("e32_codesize",     ctypes.c_ulong),
-                   ("e32_initdsize",    ctypes.c_ulong),
-                   ("e32_uninitdsize",  ctypes.c_ulong),
-                   ("e32_entryrva",     ctypes.c_ulong),
-                   ("e32_codebase",     ctypes.c_ulong),
-                   ("e32_database",     ctypes.c_ulong),
-                   ("e32_vbase",        ctypes.c_ulong),
-                   ("e32_objalign",     ctypes.c_ulong),
-                   ("e32_filealign",    ctypes.c_ulong),
-                   ("e32_osmajor",      ctypes.c_ushort),
-                   ("e32_osminor",      ctypes.c_ushort),
-                   ("e32_usermajor",    ctypes.c_ushort),
-                   ("e32_userminor",    ctypes.c_ushort),
-                   ("e32_subsysmajor",  ctypes.c_ushort),
-                   ("e32_subsysminor",  ctypes.c_ushort),
-                   ("e32_res1",         ctypes.c_ulong),
-                   ("e32_vsize",        ctypes.c_ulong),
-                   ("e32_hdrsize",      ctypes.c_ulong),
-                   ("e32_filechksum",   ctypes.c_ulong),
-                   ("e32_subsys",       ctypes.c_ushort),
-                   ("e32_dllflags",     ctypes.c_ushort),
-                   ("e32_stackmax",     ctypes.c_ulong),
-                   ("e32_stackinit",    ctypes.c_ulong),
-                   ("e32_heapmax",      ctypes.c_ulong),
-                   ("e32_heapinit",     ctypes.c_ulong),
-                   ("e32_res2",         ctypes.c_ulong),
-                   ("e32_hdrextra",     ctypes.c_ulong),
+                   ("e32_codesize",     ctypes.c_uint32),
+                   ("e32_initdsize",    ctypes.c_uint32),
+                   ("e32_uninitdsize",  ctypes.c_uint32),
+                   ("e32_entryrva",     ctypes.c_uint32),
+                   ("e32_codebase",     ctypes.c_uint32),
+                   ("e32_database",     ctypes.c_uint32),
+                   ("e32_vbase",        ctypes.c_uint32),
+                   ("e32_objalign",     ctypes.c_uint32),
+                   ("e32_filealign",    ctypes.c_uint32),
+                   ("e32_osmajor",      ctypes.c_uint16),
+                   ("e32_osminor",      ctypes.c_uint16),
+                   ("e32_usermajor",    ctypes.c_uint16),
+                   ("e32_userminor",    ctypes.c_uint16),
+                   ("e32_subsysmajor",  ctypes.c_uint16),
+                   ("e32_subsysminor",  ctypes.c_uint16),
+                   ("e32_res1",         ctypes.c_uint32),
+                   ("e32_vsize",        ctypes.c_uint32),
+                   ("e32_hdrsize",      ctypes.c_uint32),
+                   ("e32_filechksum",   ctypes.c_uint32),
+                   ("e32_subsys",       ctypes.c_uint16),
+                   ("e32_dllflags",     ctypes.c_uint16),
+                   ("e32_stackmax",     ctypes.c_uint32),
+                   ("e32_stackinit",    ctypes.c_uint32),
+                   ("e32_heapmax",      ctypes.c_uint32),
+                   ("e32_heapinit",     ctypes.c_uint32),
+                   ("e32_res2",         ctypes.c_uint32),
+                   ("e32_hdrextra",     ctypes.c_uint32),
                    ("e32_unit",         info * _STD_EXTRA)]
 
 class o32_obj(ctypes.Structure):
@@ -292,14 +292,14 @@ class o32_obj(ctypes.Structure):
     A structure for representing an o32_obj entry.
     """
     _fields_    = [("o32_name",     ctypes.c_ubyte * _E32OBJNAMEBYTES),
-                   ("o32_vsize",    ctypes.c_ulong),
-                   ("o32_rva",      ctypes.c_ulong),
-                   ("o32_psize",    ctypes.c_ulong),
-                   ("o32_dataptr",  ctypes.c_ulong),
-                   ("o32_realaddr", ctypes.c_ulong),
-                   ("o32_access",   ctypes.c_ulong),
-                   ("o32_temp3",    ctypes.c_ulong),
-                   ("o32_flags",    ctypes.c_ulong)]
+                   ("o32_vsize",    ctypes.c_uint32),
+                   ("o32_rva",      ctypes.c_uint32),
+                   ("o32_psize",    ctypes.c_uint32),
+                   ("o32_dataptr",  ctypes.c_uint32),
+                   ("o32_realaddr", ctypes.c_uint32),
+                   ("o32_access",   ctypes.c_uint32),
+                   ("o32_temp3",    ctypes.c_uint32),
+                   ("o32_flags",    ctypes.c_uint32)]
 
 class B000FFHeader(ctypes.Structure):
     """
